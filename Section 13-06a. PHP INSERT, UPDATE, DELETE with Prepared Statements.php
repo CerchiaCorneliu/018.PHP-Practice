@@ -11,7 +11,6 @@
 		$passW = $_POST['pass'];
 		$email = $_POST['email'];
 		$db = mysqli_connect('localhost', 'root', '', 'membertest');
-
 		if ($db) {
 			$sql = $db->prepare("INSERT INTO members (username, password, email) VALUES (?, ?, ?)");
 			$sql->bind_param('sss',  $uName, $passW, $email);

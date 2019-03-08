@@ -7,10 +7,12 @@ $email = "";
 $location = "";
 
   if(isset($_POST['save'])) {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $location = $_POST['location'];
     $db = mysqli_connect('localhost', 'root', '', 'crud');
+    $name = mysqli_real_escape_string($db, $_POST['name']);
+    $email = mysqli_real_escape_string($db, $_POST['email']);
+    $location = mysqli_real_escape_string($db, $_POST['location']);
+    // mysqli_real_escape_string()
+    // Protect your database against SQL injection using MySQLi
     if($db){
       $sql = "INSERT INTO data (name, email, location) VALUES(?, ?, ?)";
       $stmt = $db->prepare($sql);
@@ -61,11 +63,11 @@ $location = "";
   }
 
   if(isset($_POST['update'])) {
-    $id = $_POST['id'];
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $location = $_POST['location'];
     $db = mysqli_connect('localhost', 'root', '', 'crud');
+    $id = mysqli_real_escape_string($db, $_POST['id']);
+    $name = mysqli_real_escape_string($db,$_POST['name']);
+    $email = mysqli_real_escape_string($db,$_POST['email']);
+    $location = mysqli_real_escape_string($db,$_POST['location']);  
     if ($db){
       $sql = "UPDATE data SET name = '$name', email = '$email', location = '$location' WHERE id = $id";
       $result = mysqli_query($db, $sql);

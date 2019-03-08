@@ -10,6 +10,7 @@
   <body>
     <?php
       require_once 'process.php';
+      // Verified require_once 'process.php' is same as: include_once 'process.php';
     ?>
     <?php
     if (isset($_SESSION['message'])):
