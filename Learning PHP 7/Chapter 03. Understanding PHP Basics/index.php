@@ -7,7 +7,7 @@
       body {
         margin: 0 50px;
         padding: 0;
-        font-family: Square721 BT, sans-serif;
+        font-family: Verdana, sans-serif;
       }
       p {
         color: #4286f4;
