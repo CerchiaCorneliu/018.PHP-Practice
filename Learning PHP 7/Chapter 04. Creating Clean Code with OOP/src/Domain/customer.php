@@ -1,6 +1,6 @@
 <?php
   namespace Bookstore\Domain;
-  // require_once 'Person.php';
+  require_once 'Person.php';
   require 'Payer.php';
 
   interface Customer extends Payer {
