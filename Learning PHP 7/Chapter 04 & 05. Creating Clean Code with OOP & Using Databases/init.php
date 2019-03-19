@@ -6,6 +6,7 @@
   use Bookstore\Domain\Customer\Premium;
   use Bookstore\Domain\Customer\CustomerFactory;
   use Bookstore\Utils\Unique;
+  use Bookstore\Utils\Config;
   use Bookstore\Exceptions\InvalidIdException;
   use Bookstore\Exceptions\ExceededMaxAllowedException;
   // use Library\Domain\Book as LibraryBook;
@@ -16,9 +17,12 @@
   require_once 'src/Domain/Customer/Premium.php';
   require_once 'src/Domain/Customer/CustomerFactory.php';
   require_once 'src/Utils/Unique.php';
+  require_once 'src\Utils\Config.php';
   require_once 'src/Exceptions/InvalidIdException.php';
   require_once 'src/Exceptions/ExceededMaxAllowedException.php';
 
+
+  // Chapter 04. Creating clean code with OOP
   /*
   $book1 = new Book(978526713, "1984", "George Orwell", 12);
   var_dump($book1);
@@ -274,8 +278,6 @@
 
 
     // Singleton
-    use Bookstore\Utils\Config;
-    require_once 'src\Utils\Config.php';
     $config = new Config();
     $dbConfig = $config->get('db');
     var_dump($dbConfig); // array(2) { ["user"]=> string(4) "Luke" ["password"]=> string(9) "Skywalker" }
@@ -361,6 +363,287 @@
     $percentage = 100000;
     array_walk($books, $addTaxes, 0.16);
     var_dump($books);
+    print '<br><br><br>';
 
 
+
+// Chapter 05. Using Database
+  /*
+  // Understanding schemas
+    mysql> CREATE SCHEMA bookstore;
+    mysql> SHOW CREATE SCHEMA bookstore
+    Create Database: CREATE DATABASE `bookstore`
+    mysql> USE bookstore;
+    Database changed
+    mysql> SHOW SCHEMAS;
+
+  // Managing tables
+  	mysql> CREATE TABLE book(
+   	-> isbn CHAR(13) NOT NULL,
+   	-> title VARCHAR(255) NOT NULL,
+   	-> author VARCHAR(255) NOT NULL,
+   	-> stock SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+   	-> price FLOAT UNSIGNED
+   	-> ) ENGINE=InnoDb;
+
+	   mysql> DESC book;
+
+  	mysql> CREATE TABLE customer(
+   	-> id INT UNSIGNED NOT NULL,
+   	-> firstname VARCHAR(255) NOT NULL,
+   	-> surname VARCHAR(255) NOT NULL,
+   	-> email VARCHAR(255) NOT NULL,
+   	-> type ENUM('basic', 'premium')
+   	-> ) ENGINE=InnoDb;
+
+  // Keys and constraints
+  // Primary keys
+  	mysql> ALTER TABLE book
+   	-> ADD id INT UNSIGNED NOT NULL AUTO_INCREMENT
+   	-> PRIMARY KEY FIRST;
+
+  	mysql> ALTER TABLE customer
+   	-> MODIFY id INT UNSIGNED NOT NULL
+   	-> AUTO_INCREMENT PRIMARY KEY;
+  // Foreign keys
+  	mysql> CREATE TABLE borrowed_books(
+   	-> book_id INT UNSIGNED NOT NULL,
+   	-> customer_id INT UNSIGNED NOT NULL,
+   	-> start DATETIME NOT NULL,
+   	-> end DATETIME DEFAULT NULL,
+   	-> FOREIGN KEY (book_id) REFERENCES book(id),
+   	-> FOREIGN KEY (customer_id) REFERENCES customer(id)
+   	-> ) ENGINE=InnoDb;
+
+	  mysql> SHOW CREATE TABLE borrowed_books \G
+
+  	mysql> CREATE TABLE sale(
+   	-> id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   	-> customer_id INT UNSIGNED NOT NULL,
+   	-> date DATETIME NOT NULL,
+   	-> FOREIGN KEY (customer_id) REFERENCES customer(id)
+   	-> ) ENGINE=InnoDb;
+
+  	mysql> CREATE TABLE sale_book(
+   	-> sale_id INT UNSIGNED NOT NULL,
+   	-> book_id INT UNSIGNED NOT NULL,
+   	-> amount SMALLINT UNSIGNED NOT NULL DEFAULT 1,
+   	-> FOREIGN KEY (sale_id) REFERENCES sale(id),
+   	-> FOREIGN KEY (book_id) REFERENCES book(id)
+   	-> ) ENGINE=InnoDb;
+  // Unique keys
+  	mysql> ALTER TABLE book ADD UNIQUE KEY (isbn);
+  	mysql> ALTER TABLE customer ADD UNIQUE KEY (email);
+  // Indexes
+	  mysql> ALTER TABLE book ADD INDEX (title);
+
+  // Inserting data
+  	mysql> INSERT INTO customer (firstname, surname, email, type)
+   	-> VALUES ("Han", "Solo", "han@tatooine.com", "premium");
+  	mysql> INSERT INTO customer (firstname, surname, email, type)
+   	-> VALUES ("James", "Kirk", "enter@prise", "basic");
+  	mysql> INSERT INTO customer (firstname, surname, email, type)
+   	-> VALUES ("Mr", "Spock", "enter@prise", "basic");
+  	// ERROR 1062 (23000): Duplicate entry 'enter@prise' for key 'email'
+
+	  mysql> INSERT INTO book (isbn,title,author,stock,price) VALUES
+   	-> ("9780882339726","1984","George Orwell",12,7.50),
+   	-> ("9789724621081","1Q84","Haruki Murakami",9,9.75),
+   	-> ("9780736692427","Animal Farm","George Orwell",8,3.50),
+   	-> ("9780307350169","Dracula","Bram Stoker",30,10.15),
+   	-> ("9780753179246","19 minutes","Jodi Picoult",0,10);
+  	mysql> INSERT INTO book (isbn,title,author,price) VALUES
+   	-> ("9781416500360", "Odyssey", "Homer", 4.23);
+
+  	mysql> INSERT INTO borrowed_books(book_id,customer_id,start,end)
+   	-> VALUES
+   	-> (1, 1, "2014-12-12", "2014-12-28"),
+   	-> (4, 1, "2015-01-10", "2015-01-13"),
+   	-> (4, 2, "2015-02-01", "2015-02-10"),
+   	-> (1, 2, "2015-03-12", NULL);
+
+// Querying data
+  	mysql> SELECT firstname, surname, type FROM customer;
+  	mysql> SELECT firstname, surname, type FROM customer
+   	-> WHERE id = 1;
+  	mysql> SELECT title, author, price FROM book
+   	-> WHERE title LIKE "1%";
+  	mysql> SELECT title, author, price FROM book
+   	-> WHERE title LIKE "1%" AND stock > 0;
+  	mysql> SELECT * FROM customer \G
+  	mysql> SELECT COUNT(*) FROM borrowed_books
+   	-> WHERE customer_id = 1 AND end IS NOT NULL;
+  	mysql> SELECT id, title, author, isbn FROM book
+   	-> ORDER BY title LIMIT 4;
+*/
+
+  print '<b>Using PDO</b><br>';
+  // Connecting to the database
+  $dbConfig = Config::getInstance()->get('db');
+  $db = new PDO (
+    'mysql:host=127.0.0.1;dbname=bookstore',
+    $dbConfig['user'],
+    $dbConfig['password']
+  );
+  $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+  // Performing queries
+  $rows = $db->query('SELECT * FROM book ORDER BY title');
+  foreach ($rows as $row) {
+    var_dump($row);
+  }
+  print '<br>';
+
+  $query = 'INSERT INTO book (isbn, title, author, price) VALUES ("9788187981954", "Peter Pan", "J. M. Barrie", 2.34)';
+  $result = $db->exec($query);
+  var_dump($result); // false
+  print '<br>';
+
+  // <<<SQL and SQL is named heredoc;
+  $query = <<<SQL
+  INSERT INTO book (isbn, title, author, price)
+  VALUES ("9788187981954", "Peter Pan", "J. M. Barrie", 2.34)
+SQL;
+  $result = $db->exec($query);
+  var_dump($result); // bool(false)
+  $error = $db->errorInfo()[2];
+  var_dump($error); // string(46) "Duplicate entry '9788187981954' for key 'isbn'"
+  print '<br>';
+
+// Prepared statements
+  $query = 'SELECT * FROM book WHERE author = :author';
+  $statement = $db->prepare($query);
+  $statement->bindValue('author', 'George Orwell');
+  $statement->execute();
+  $rows = $statement->fetchAll();
+  var_dump($rows);
+  print '<br>';
+
+  $query = 'INSERT INTO book (isbn, title, author, price)
+  VALUES (:isbn, :title, :author, :price)';
+  $statement = $db->prepare($query);
+  $params = [
+   'isbn' => '9781412108614',
+   'title' => 'Iliad',
+   'author' => 'Homer',
+   'price' => 9.25
+  ];
+  $statement->execute($params);
+  print $db->lastInsertId(); //25
+  print '<br>';
+
+// Joining tables
+/*
+  SELECT CONCAT(c.firstname, ' ', c.surname) AS name,
+   b.title,
+   b.author,
+   DATE_FORMAT(bb.start, '%d-%m-%y') AS start,
+   DATE_FORMAT(bb.end, '%d-%m-%y') AS end
+   FROM borrowed_books bb
+   LEFT JOIN customer c ON bb.customer_id = c.id
+   LEFT JOIN book b ON b.id = bb.book_id
+   WHERE bb.start >= "2015-01-01";
+*/
+// +------------+---------+---------------+----------+----------+
+// | name      | title   | author     | start    | end      |
+// +------------+---------+---------------+----------+----------+
+// | Han Solo | Dracula | Bram Stoker | 10-01-15 | 13-01-15 |
+// | James Kirk | Dracula | Bram Stoker | 01-02-15 | 10-02-15 |
+// | James Kirk | 1984 | George Orwell | 12-03-15 | NULL |
+// +------------+---------+---------------+----------+----------+
+
+// Grouping queries
+/*
+SELECT
+  author,
+  COUNT(*) AS amount,
+  GROUP_CONCAT(title SEPARATOR ', ') AS titles
+  FROM book
+  GROUP BY author
+  ORDER BY amount DESC, author;
+*/
+// +-----------------+--------+-------------------+
+// | author | amount | titles |
+// +-----------------+--------+-------------------+
+// | George Orwell | 2 | 1984, Animal Farm |
+// | Homer | 2 | Odyssey, Iliad |
+// | Bram Stoker | 1 | Dracula |
+// | Haruki Murakami | 1 | 1Q84 |
+// | J. M. Barrie | 1 | Peter Pan |
+// | Jodi Picoult | 1 | 19 minutes |
+// +-----------------+--------+-------------------+
+
+// Updating data
+// UPDATE book SET price = 12.75 WHERE id = 2;
+// UPDATE book SET price = price * 1.16;
+function addBook(int $id, int $amount = 1): void {
+  $db = new PDO(
+    'mysql:host=127.0.0.1; dbname=bookstore',
+    'root',
+    ''
+  );
+  $query = 'UPDATE book SET stock = stock + :n WHERE id = :id';
+  $statement = $db->prepare($query);
+  $statement->bindValue('id', $id);
+  $statement->bindValue('n', $amount);
+  if(!$statement->execute()){
+    throw new Exception($statement->errorInfo()[2]);
+  }
+} // 1
+print '<br>';
+
+// Foreign key behaviors
+// SHOW CREATE TABLE borrowed_books
+// ALTER TABLE borrowed_books DROP FOREIGN KEY borrowed_books_ibfk_1;
+// ALTER TABLE borrowed_books DROP FOREIGN KEY borrowed_books_ibfk_2;
+// ALTER TABLE borrowed_books ADD FOREIGN KEY (book_id) REFERENCES book (id) ON DELETE CASCADE ON UPDATE CASCADE, ADD FOREIGN KEY (customer_id) REFERENCES customer (id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+// Deleting data
+// SELECT book_id, customer_id FROM borrowed_books;
+// DELETE FROM book WHERE id = 4;
+// SELECT book_id, customer_id FROM borrowed_books;
+
+// Working with transactions
+function addSale(int $userId, array $bookIds): void {
+  $config = Config::getInstance();
+  $dbConfig = $config->get('db');
+  $db = new PDO (
+    'mysql:host=127.0.0.1; dbname=bookstore',
+    $dbConfig['user'],
+    $dbConfig['password']
+  );
+  $db->beginTransaction();
+  try {
+    $query = 'INSERT INTO sale (customer_id, date)' . 'VALUES(:id, NOW())';
+    $statement = $db->prepare($query);
+    if(!$statement->execute(['id'=>$userId])) {
+      throw new Exception ($statement->errorInfo()[2]);
+    }
+    $saleId = $db->lastInsertId();
+    $query = 'INSERT INTO sale_book (sale_id, book_id)' . 'VALUES(:sale, :book)';
+    $statement = $db->prepare($query);
+    $statement->bindValue('sale', $saleId);
+    foreach ($bookIds as $bookId) {
+      $statement->bindValue('book', $bookId);
+      if(!$statement->execute()) {
+        throw new Exception ($statement->errorInfo()[2]);
+      }
+    }
+    $db->commit();
+  } catch (Exception $e) {
+    $db->rollBack();
+    throw $e;
+  }
+
+  // try {
+  //   addSale(1, [1, 2, 200]);
+  // } catch (Exception $e) {
+  //   print 'Error adding sale: ' . $e->getMessage();
+  // } // ERROR
+
+  try {
+    addSale(1, [1,2,3]);
+  } catch (Exception $e) {
+    print 'Error adding sale: ' . $e->getMessage();
+  }
+}
 ?>

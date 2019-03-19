@@ -40,7 +40,7 @@
 //        var_dump($row);
 
     $query = <<<'SQL'
-    INSERT INTO book (isbn, title, author, price) 
+    INSERT INTO book (isbn, title, author, price)
     VALUES ("9788187981954", "Peter Pan", "J. M. Barrie", 2.34)
 SQL;
     $result = $db->exec($query);
@@ -108,7 +108,7 @@ SQL;
         $db->beginTransaction();
         try {
             $query = <<<'SQL'
-            INSERT INTO sale (customer_id, date) 
+            INSERT INTO sale (customer_id, date)
             VALUES (:id, NOW())
 SQL;
             $statement = $db->prepare($query);
@@ -117,7 +117,7 @@ SQL;
             $saleId = $db->lastInsertId();
 
             $query = <<<'SQL'
-            INSERT INTO sale_book (sale_id, book_id) 
+            INSERT INTO sale_book (sale_id, book_id)
             VALUES (:sale, :book)
 SQL;
             $statement = $db->prepare($query);
@@ -129,7 +129,7 @@ SQL;
             }
 
             $db->commit();
-        }catch (Exception $e) {
+        } catch (Exception $e) {
             $db->rollBack();
             throw $e;
         }
@@ -147,6 +147,3 @@ SQL;
     } catch (Exception $e) {
         echo 'Error adding sale: ' . $e->getMessage();
     }
-
-
-
