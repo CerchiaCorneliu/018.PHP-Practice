@@ -72,7 +72,7 @@
         return;
       }
       $routeParamObject = Route::$get[$url];
-      $this->parms = $routeParamObject->params;
+      $this->params = $routeParamObject->params;
       $url = Url::getUrl(false);
       $uriParamsString = trim(substr($uri, $firstBracketPos),'/');
       if(empty($uriParamsString)){
