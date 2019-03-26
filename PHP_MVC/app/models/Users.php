@@ -1,6 +1,6 @@
 <?php
   class Users extends Model {
-    private $_isLOggedIn, $_sessionName, $_cookieName;
+    private $_isLoggedIn, $_sessionName, $_cookieName;
     public static $currentLoggedInUser = null;
 
     public function __construct($user='') {
@@ -17,14 +17,14 @@
         }
         if($u) {
           foreach ($u as $key => $val) {
-            $this->$kay = $val;
+            $this->$key = $val;
           }
         }
       }
     }
 
     public function findByUsername($username) {
-      return $this->findFirst(['conditions'=>'username = ?', 'bind'=>['username']]);
+      return $this->findFirst(['conditions'=>"username = ?", 'bind'=>[$username]]);
     }
 
     public function login($rememberMe = false) {

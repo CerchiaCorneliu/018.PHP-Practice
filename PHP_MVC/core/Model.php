@@ -35,9 +35,11 @@
     }
 
     public function findFirst($params = []) {
-      $resultsQuery = $this->_db->findFirst($this->_table, $params);
+      $resultQuery = $this->_db->findFirst($this->_table, $params);
       $result = new $this->_modelName($this->_table);
-      $result->populateObjData($resultsQuery);
+      if($resultQuery) {
+        $result->populateObjData($resultQuery);
+      }
       return $result;
     }
 
@@ -50,7 +52,6 @@
       foreach ($this->_columnNames as $column) {
         $fields[$column] = $this->$column;
       }
-      // determine whether to update or INSERT
       if(property_exists($this, 'id') && $this->id !='') {
         return $this->update($this->id, $fields);
       } else {
@@ -64,7 +65,7 @@
     }
 
     public function update($id, $fields) {
-      if(empty($fields) || $id = '') return false;
+      if(empty($fields) || $id == '') return false;
       return $this->_db->update($this->_table, $id, $fields);
     }
 
@@ -91,7 +92,7 @@
 
     public function assign($params) {
       if(!empty($params)) {
-        foreach($params as $key =>$val) {
+        foreach($params as $key => $val) {
           if(in_array($key, $this->_columnNames)) {
             $this->$key = sanitize($val);
           }

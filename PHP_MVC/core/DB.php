@@ -77,9 +77,7 @@
       }
       $sql = "SELECT * FROM {$table}{$conditionString}{$order}{$limit}";
       if($this->query($sql, $bind)) {
-        if(!count($this->_result)) {
-          return false;
-        }
+        if(!count($this->_result)) return false;
         return true;
       }
       return false;
@@ -121,7 +119,7 @@
       $fieldString = '';
       $values = [];
       foreach ($fields as $field => $value) {
-        $fieldString .= '' . $field . ' = ?,';
+        $fieldString .= ' ' . $field . ' = ?,';
         $values[] = $value;
       }
       $fieldString = trim($fieldString);

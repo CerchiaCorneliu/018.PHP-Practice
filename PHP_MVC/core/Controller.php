@@ -15,5 +15,5 @@
         $this->{$model.'Model'} = new $model(strtolower($model));
       }
     }
-
+    
   }
