@@ -13,7 +13,7 @@
         include(ROOT . DS . 'app' . DS . 'views' . DS . $viewString . '.php');
         include(ROOT . DS . 'app' . DS . 'views' . DS . 'layouts' . DS . $this->_layout . '.php');
       } else {
-        die('The view \"' . $viewName . '\"does not exist.');
+        die('The view \"' . $viewName . '\" does not exist.');
       }
     }
 
@@ -34,7 +34,7 @@
     public function end() {
       if($this->_outputBuffer == 'head') {
         $this->head = ob_get_clean();
-      } else if($this->_outputBuffer == 'body') {
+      } elseif($this->_outputBuffer == 'body') {
         $this->_body = ob_get_clean();
       } else {
         die('You must first run the start method!');

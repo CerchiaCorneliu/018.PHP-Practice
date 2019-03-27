@@ -7,7 +7,7 @@
 
     public function indexAction() {
       // $db = DB::getInstance();
-      // dnd($_SESSION);  
+      // dnd($_SESSION);
       $this->view->render('home/index');
     }
   }
