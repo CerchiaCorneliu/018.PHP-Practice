@@ -36,7 +36,7 @@
 		*/
 		// Parse error: syntax error, unexpected '}' in C:\xampp\htdocs\phpFiles\courseFiles\My Practice\Section 03-01. PHP If Statements.php on line 32
 
-		print ("<IMG SRC = church.jpg>");
+		print ("<IMG SRC = images/church.jpg>");
 
 	?>
 </body>

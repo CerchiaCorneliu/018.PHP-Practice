@@ -5,7 +5,7 @@
 	</head>
 	<body>
 		<?php
-			/* 
+
 			$picture ='church';
 
 			switch ($picture) {
@@ -17,17 +17,17 @@
 				print('Church Picture');
 				break;
 			}
-			*/
 
 
+			/*
 			switch ($variable_name) {
 
 			case 'What_you_want_to_check_for':
 
 			//code here
 			break;
-
 			}
+			*/
 		?>
 	</body>
 </html>

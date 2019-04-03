@@ -8,8 +8,8 @@
 		$full_name = 'bill gates';
 		if (isset($_POST['Submit1'])) {
 			$full_name = $_POST['username'];
-			// $full_name = ucwords($full_name);
-			$full_name = ucfirst($full_name);
+			$full_name = ucwords($full_name);
+			// $full_name = ucfirst($full_name);
 		}
 
 		/*
@@ -28,4 +28,3 @@
 	</FORM>
 </body>
 </html>
-

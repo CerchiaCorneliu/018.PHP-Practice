@@ -11,16 +11,16 @@
 
 		if ($kitten_image == 1) {
 
-			print ("<IMG SRC = kitten.jpg>");
+			print ("<IMG SRC = images/kitten.jpg>");
 
-		} 
+		}
 		*/
 
 
 		/*
 		$kitten_image = 1;
 		$church_image = 0;
-		if ($kitten_image == 1) { print ("<IMG SRC = kitten.jpg>"); }
+		if ($kitten_image == 1) { print ("<IMG SRC = images/kitten.jpg>"); }
 		*/
 
 
@@ -29,13 +29,13 @@
 
 		if ($kitten_image == 1) {
 
-			print ("<IMG SRC = kitten.jpg>");
+			print ("<IMG SRC = images/kitten.jpg>");
 
 		}
 
 		if ($church_image == 1) {
 
-			print ("<IMG SRC = church.jpg>");
+			print ("<IMG SRC = images/church.jpg>");
 
 		}
 	?>

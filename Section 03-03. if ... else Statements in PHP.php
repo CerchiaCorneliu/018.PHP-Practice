@@ -5,7 +5,7 @@
 </head>
 <body>
 	<?php
-		/* 
+		/*
 		$kitten_image = 0;
 		$church_image = 1;
 
@@ -21,9 +21,9 @@
 		$church_image = 0;
 
 		if($kitten_image == 1) {
-			print("<img src = kitten.jpg>");
+			print("<img src = images/kitten.jpg>");
 		} else {
-			print("<img src = church.jpg>");
+			print("<img src = images/church.jpg>");
 		}
 	?>
 </body>

@@ -12,17 +12,17 @@
 
 		/*
 		$full_name = "bill gates";
-		$letter_position = strpos( $full_name, "b" ); 
+		$letter_position = strpos( $full_name, "b" );
 		print $letter_position;
 		*/
 
 
 		/*
 		$full_name = "bill gates";
-		$letter_position = strpos( $full_name, "B" ); 
+		$letter_position = strpos( $full_name, "B" );
 		if ($letter_position === false) {
 		print "Character not found " ;
-		}else {
+		} else {
 		print "Character found";
 		}
 		*/
@@ -39,4 +39,3 @@
 	?>
 </body>
 </html>
-

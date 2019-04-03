@@ -10,7 +10,7 @@
 		$total_clothes = $mr_coats + $mrs_shoes;
 		$total_clothes = 10 + 35;
 		$total_clothes = 10 + 35 + 7 + 38 + 1250;
-		print phpversion(); // 7.2.4
+		print phpversion(); // 7.3.3
 	?>
 </body>
 </html>

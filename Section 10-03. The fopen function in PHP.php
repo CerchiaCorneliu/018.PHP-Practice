@@ -11,13 +11,6 @@
 		fclose($file_contents); // Resource id #3
 		*/
 
-
-		/*
-		$version = phpversion();
-		print $version; //7.2.4
-		*/
-
-
 		$file_handle = fopen("dictionary.txt", "r");
 		while (!feof($file_handle)) {
 			$line_of_text = fgets($file_handle);
@@ -30,6 +23,3 @@
 	?>
 </body>
 </html>
-
-
-
