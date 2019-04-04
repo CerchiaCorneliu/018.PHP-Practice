@@ -19,16 +19,16 @@
           $resultImg = mysqli_query($conn, $sqlImg);
           while ($rowImg = mysqli_fetch_assoc($resultImg)) {
             print "<div class = 'user-container'>";
-              if ($rowImg['status'] == 0) {
-                $filename = "uploads/profile" . $id . "*";
-                $fileinfo = glob($filename);
-                $fileext = explode(".", $fileinfo[0]);
-                $fileactualext = $fileext[1];
-                print "<img src='uploads/profile".$id.".".$fileactualext."?".mt_rand()."'>";
-              } else {
-                print "<img src='uploads/profiledefault.png'>";
-              }
-              print "<p>" . $row['username'] . "</p>";
+            if ($rowImg['status'] == 0) {
+              $filename = "uploads/profile" . $id . "*";
+              $fileinfo = glob($filename);
+              $fileext = explode(".", $fileinfo[0]);
+              $fileactualext = $fileext[1];
+              print "<img src='uploads/profile".$id.".".$fileactualext."?".mt_rand()."'>";
+            } else {
+              print "<img src='uploads/profiledefault.png'>";
+            }
+            print "<p>" . $row['username'] . "</p>";
             print "</div>";
           }
         }

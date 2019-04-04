@@ -8,8 +8,6 @@
     header ('Location: index.php?deletesuccess');
   }*/
 
-
-
   // Delete multiple files
   $fileNames = $_POST['filename'];
   $removeSpaces = str_replace(" ", "", $fileNames);

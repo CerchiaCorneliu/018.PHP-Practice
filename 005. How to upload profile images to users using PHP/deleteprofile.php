@@ -3,12 +3,12 @@
   include_once 'dbh.php';
   $sessionid = $_SESSION['id'];
 
-  /* $filename = "uploads/profile" . $sessionid . "*";
+  $filename = "uploads/profile" . $sessionid . "*";
   $fileinfo = glob($filename);
   // print_r($fileinfo);
   $fileext = explode(".", $fileinfo[0]);
   // print_r($fileext);
-  $fileactualext = $fileext[1]; */
+  $fileactualext = $fileext[1];
   $file = "uploads/profile" . $sessionid . "." . $fileactualext;
 
   if (!unlink($file)) {

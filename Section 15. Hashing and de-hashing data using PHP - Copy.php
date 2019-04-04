@@ -15,7 +15,7 @@
 
       // DEHASHING
       $input = "test123";
-      $hashPwdInDb = password_hash("test123", PASSWORD_DEFAULT);
+      $hashPwdInDb = password_hash( $input, PASSWORD_DEFAULT);
       print password_verify($input, $hashPwdInDb);
     ?>
   </body>

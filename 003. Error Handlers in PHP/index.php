@@ -54,9 +54,8 @@
        } else {
          echo '<input type="text" name="last" placeholder="Lastname">';
        }
-      ?>
-
-      <input type="text" name="email" placeholder="E-mail">
+    ?>
+    <input type="text" name="email" placeholder="E-mail">
     <?php
       if (isset($_GET['uid'])) {
         $uid = $_GET['uid'];

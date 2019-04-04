@@ -21,6 +21,7 @@
       foreach ($datas[0] as $data) {
         print $data; // 1hello
       }
+      print "<br>";
 
       foreach ($datas as $data) {
         print $data['text'] . " "; // hello come and see me
