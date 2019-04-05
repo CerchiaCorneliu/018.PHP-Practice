@@ -1,4 +1,4 @@
-Option -MultiViews
+Options -Multiviews
 RewriteEngine On
 
 RewriteBase /018.PHP-Practice/MVC/public

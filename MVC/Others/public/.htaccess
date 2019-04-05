@@ -1,9 +1,0 @@
-Option -MultiViews
-RewriteEngine On
-
-RewriteBase /018.PHP-Practice/MVC/public
-
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-
-RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
