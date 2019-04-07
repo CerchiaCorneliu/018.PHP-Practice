@@ -7,13 +7,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$uname = $_POST['username'];
 	$pword = $_POST['password'];
 	$db_found = mysqli_connect('localhost', 'root', '', 'login');
-
-	if ($db_found) {		
+	if ($db_found) {
 		$SQL = $db_found->prepare('SELECT * FROM login WHERE L1 = ?');
 		$SQL->bind_param('s', $uname);
 		$SQL->execute();
 		$result = $SQL->get_result();
-
 		if ($result->num_rows > 0) {
 			$errorMessage = "Username already taken";
 		} else {

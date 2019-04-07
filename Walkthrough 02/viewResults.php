@@ -54,9 +54,9 @@
 					$percentC = (($qC * 100) / $totalP);
 					$percentC = floor($percentC);
 
-					$imgWidthA = $percentA * 2;
-					$imgWidthB = $percentB * 2;
-					$imgWidthC = $percentC * 2;
+					$imgWidthA = $percentA * 4;
+					$imgWidthB = $percentB * 4;
+					$imgWidthC = $percentC * 4;
 
 					$imgTagA = "<IMG SRC = 'red.jpg' Height = " . $imgHeight . " WIDTH = " . $imgWidthA. ">";
 					$imgTagB = "<IMG SRC = 'red.jpg' Height = " . $imgHeight . " WIDTH = " . $imgWidthB . ">";

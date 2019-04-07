@@ -259,13 +259,16 @@
       $properties1 = $properties2 = $properties3 = $properties;
       sort($properties1);
       var_dump($properties1);
-      print '<br>'; // array(3) { [0]=> string(6) "Riddle" [1]=> string(9) "Slytherin" [2]=> string(3) "Tom" }
+      // array(3) { [0]=> string(6) "Riddle" [1]=> string(9) "Slytherin" [2]=> string(3) "Tom" }
+      print '<br>';
       asort($properties3);
       var_dump($properties3);
-      print '<br>'; // array(3) { ["surname"]=> string(6) "Riddle" ["house"]=> string(9) "Slytherin" ["firstname"]=> string(3) "Tom" }
+      // array(3) { ["surname"]=> string(6) "Riddle" ["house"]=> string(9) "Slytherin" ["firstname"]=> string(3) "Tom" }
+      print '<br>';
       ksort($properties2);
       var_dump($properties2);
-      print '<br>'; // array(3) { ["firstname"]=> string(3) "Tom" ["house"]=> string(9) "Slytherin" ["surname"]=> string(6) "Riddle" }
+      // array(3) { ["firstname"]=> string(3) "Tom" ["house"]=> string(9) "Slytherin" ["surname"]=> string(6) "Riddle" }
+      print '<br>';
 
       print '<p>Other array functions</p>';
       $properties = [
@@ -307,10 +310,10 @@
 
     <p>Persisting data with cookies</p>
       <form action="SetCookie.php" method="post">
-      <label>Username</label>
-      <input type="text" name="username" /> <br>
-      <input type="submit" value="Login"/>
-    </form>
+        <label>Username</label>
+        <input type="text" name="username"/> <br>
+        <input type="submit" value="Login"/>
+      </form>
 
     <p>Other superglobals</p>
     $GLOBALS
@@ -398,7 +401,7 @@
       print '<p>Loops</p>';
       print '<p>While</p>';
       $i = 1;
-        while ($i < 4) {
+      while ($i < 4) {
         echo $i . " ";
         $i++;
       }
