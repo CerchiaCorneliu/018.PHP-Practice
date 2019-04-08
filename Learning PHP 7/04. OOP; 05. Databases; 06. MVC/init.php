@@ -292,6 +292,7 @@
 
 
     // Singleton
+    // singletons are used when you want one class to always have one unique instance. 
     $config = new Config();
     $dbConfig = $config->get('db');
     var_dump($dbConfig); // array(2) { ["user"]=> string(4) "Luke" ["password"]=> string(9) "Skywalker" }
