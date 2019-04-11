@@ -292,7 +292,7 @@
 
 
     // Singleton
-    // singletons are used when you want one class to always have one unique instance. 
+    // singletons are used when you want one class to always have one unique instance.
     $config = new Config();
     $dbConfig = $config->get('db');
     var_dump($dbConfig); // array(2) { ["user"]=> string(4) "Luke" ["password"]=> string(9) "Skywalker" }
@@ -452,7 +452,8 @@
   // Indexes
 	  mysql> ALTER TABLE book ADD INDEX (title);
 
-  // Inserting data
+
+// Inserting data
   	mysql> INSERT INTO customer (firstname, surname, email, type)
    	-> VALUES ("Han", "Solo", "han@tatooine.com", "premium");
   	mysql> INSERT INTO customer (firstname, surname, email, type)
@@ -477,6 +478,7 @@
    	-> (4, 2, "2015-02-01", "2015-02-10"),
    	-> (1, 2, "2015-03-12", NULL);
 
+
 // Querying data
   	mysql> SELECT firstname, surname, type FROM customer;
   	mysql> SELECT firstname, surname, type FROM customer
@@ -490,7 +492,7 @@
    	-> WHERE customer_id = 1 AND end IS NOT NULL;
   	mysql> SELECT id, title, author, isbn FROM book
    	-> ORDER BY title LIMIT 4;
-*/
+  */
 
   print '<b>Using PDO</b><br>';
   // Connecting to the database
@@ -524,7 +526,7 @@ SQL;
   var_dump($error); // string(46) "Duplicate entry '9788187981954' for key 'isbn'"
   print '<br>';
 
-// Prepared statements
+  // Prepared statements
   $query = 'SELECT * FROM book WHERE author = :author';
   $statement = $db->prepare($query);
   $statement->bindValue('author', 'George Orwell');
@@ -546,8 +548,8 @@ SQL;
   print $db->lastInsertId(); //25
   print '<br>';
 
-// Joining tables
-/*
+  // Joining tables
+  /*
   SELECT CONCAT(c.firstname, ' ', c.surname) AS name,
    b.title,
    b.author,
@@ -557,35 +559,43 @@ SQL;
    LEFT JOIN customer c ON bb.customer_id = c.id
    LEFT JOIN book b ON b.id = bb.book_id
    WHERE bb.start >= "2015-01-01";
-*/
-// +------------+---------+---------------+----------+----------+
-// | name      | title   | author     | start    | end      |
-// +------------+---------+---------------+----------+----------+
-// | Han Solo | Dracula | Bram Stoker | 10-01-15 | 13-01-15 |
-// | James Kirk | Dracula | Bram Stoker | 01-02-15 | 10-02-15 |
-// | James Kirk | 1984 | George Orwell | 12-03-15 | NULL |
-// +------------+---------+---------------+----------+----------+
+  */
+  // +------------+---------+---------------+----------+----------+
+  // | name      | title   | author     | start    | end      |
+  // +------------+---------+---------------+----------+----------+
+  // | Han Solo | Dracula | Bram Stoker | 10-01-15 | 13-01-15 |
+  // | James Kirk | Dracula | Bram Stoker | 01-02-15 | 10-02-15 |
+  // | James Kirk | 1984 | George Orwell | 12-03-15 | NULL |
+  // +------------+---------+---------------+----------+----------+
 
-// Grouping queries
-/*
-SELECT
-  author,
-  COUNT(*) AS amount,
-  GROUP_CONCAT(title SEPARATOR ', ') AS titles
-  FROM book
-  GROUP BY author
-  ORDER BY amount DESC, author;
-*/
-// +-----------------+--------+-------------------+
-// | author | amount | titles |
-// +-----------------+--------+-------------------+
-// | George Orwell | 2 | 1984, Animal Farm |
-// | Homer | 2 | Odyssey, Iliad |
-// | Bram Stoker | 1 | Dracula |
-// | Haruki Murakami | 1 | 1Q84 |
-// | J. M. Barrie | 1 | Peter Pan |
-// | Jodi Picoult | 1 | 19 minutes |
-// +-----------------+--------+-------------------+
+  // Grouping queries
+  /*
+  SELECT
+    author,
+    COUNT(*) AS amount,
+    GROUP_CONCAT(title SEPARATOR ', ') AS titles
+    FROM book
+    GROUP BY author
+    ORDER BY amount DESC, author;
+  */
+  // +-----------------+--------+-------------------+
+  // | author | amount | titles |
+  // +-----------------+--------+-------------------+
+  // | George Orwell | 2 | 1984, Animal Farm |
+  // | Homer | 2 | Odyssey, Iliad |
+  // | Bram Stoker | 1 | Dracula |
+  // | Haruki Murakami | 1 | 1Q84 |
+  // | J. M. Barrie | 1 | Peter Pan |
+  // | Jodi Picoult | 1 | 19 minutes |
+  // +-----------------+--------+-------------------+
+  /*
+  1. SELECT
+  2. FROM
+  3. WHERE
+  4. GROUP BY
+  5. ORDER BY
+  */
+
 
 // Updating data
 // UPDATE book SET price = 12.75 WHERE id = 2;
