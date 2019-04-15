@@ -17,6 +17,8 @@
   use Bookstore\Exceptions\InvalidIdException;
   use Bookstore\Exceptions\ExceededMaxAllowedException;
   // use Library\Domain\Book as LibraryBook;
+  // require_once __DIR__ . '/Book.php';
+  // require_once __DIR__ . '/Customer.php';
   require_once 'src/Domain/Book.php';
   require_once 'src/Domain/Person.php';
   require_once 'src/Domain/Customer.php';
@@ -25,7 +27,7 @@
   require_once 'src/Domain/Customer/CustomerFactory.php';
   require_once 'src/Utils/Unique.php';
   require_once 'src/Utils/Config.php';
-  require_once 'src/Core/ConfigCore.php';
+  require_once 'src/Core/Config.php';
   require_once 'src/Core/Request.php';
   require_once 'src/Core/FilteredMap.php';
   require_once 'src/Core/Router.php';
@@ -37,7 +39,6 @@
 
 
   // Chapter 04. Creating clean code with OOP
-  /*
   $book1 = new Book(978526713, "1984", "George Orwell", 12);
   var_dump($book1);
   print '<br>';
@@ -45,6 +46,16 @@
   var_dump($book2);
   print '<br><br>';
 
+  // Properties and methods visibility
+  //  private: This type allows access only to members of the same class. If A and B are instances of the class C, A can access the properties and methods of B.
+  //  protected: This type allows access to members of the same class and instances from classes that inherit from that one only.
+  //  public: This type refers to a property or method that is accessible from anywhere. Any classes or code in general from outside the class can access it.
+
+  // ENCAPSULATION tries to group the data of the object with its methods in an attempt to hide the internal structure of the object from the rest of the world. In simple words, you could say that you use encapsulation if the properties of an object are private, and the only way to update them is through public methods.
+  // The easiest way to implement this idea is by setting all the properties of the class as private and enabling two methods for each of the properties: one will get the current value (also known as GETTER), and the other will allow you to set a new value (known as SETTER).
+
+  // PHP allows you to have properties and methods linked to the class itself rather than to the object. These properties and methods are defined with the keyword STATIC.
+  /*
   $customer1 = new Customer(1, 'John', 'Doe', 'johndoe@mail.com');
   var_dump($customer1);
   print '<br>';
@@ -61,26 +72,28 @@
 
   $custumer3 = new Bookstore\Domain\Customer(3, 'Me', 'Legend', 'ml@mail.com');
   var_dump($customer3);
+
+  Customer::getLastId();
+  $customer1::getLastId();
   print '<br><br>';
   */
 
+  // PHP allows the use of NAMESPACES, which act as paths in a filesystem.
 
-  /*
+  // Autoloading is a PHP feature that allows your program to search and load files automatically given some set of predefined rules.
   function __autoloader($classname) {
      $lastSlash = strpos($classname, '\\') + 1;
      $classname = substr($classname, $lastSlash);
      $directory = str_replace('\\', '/', $classname);
-     $filename = __DIR__ . '/src/' . $directory . '.php'
+     $filename = __DIR__ . '/src/' . $directory . '.php';
      require_once($filename);
   }
   $book4 = new Book("1984", "George Orwell", 9785267006323, 12);
   var_dump($book4);
   print '<br>';
-  $customer4 = new Customer(5, 'John', 'Doe', 'johndoe@mail.com');
-  var_dump($customer4);
+  /* $customer4 = new Customer(5, 'John', 'Doe', 'johndoe@mail.com');
+  var_dump($customer4);*/
   print '<br><br>';
-  */
-
 
   /*
   function autoloader($classname) {
@@ -93,12 +106,14 @@
   spl_autoload_register('autoloader');
   */
 
+  // INHERITANCE in OOP is the ability to pass the implementation of the class from parents to children.
+
+  // Overriding methods
   class Pops {
     public function sayHi() {
       print "Hi, I am pops.";
     }
   }
-
   class Child extends Pops {
     public function sayHi() {
       print "Hi, I am a child. ";
@@ -113,8 +128,31 @@
   print $child->sayHi();
   print '<br><br>';
 
+  /*
+  class Child extends Pops{
+     protected function sayHi() {
+       echo "Hi, I am a child.";
+     }
+  }
+  */
+  // Fatal error: Access level to Child::sayHi() must be public (as in class Pops) in ...
 
-  // Polimorphism
+  // Abstract classes
+  // An abstract class is a class that cannot be instantiated.
+  function checkIfValid(Customer $customer, array $books): bool {
+     return $customer->getAmountToBorrow() >= count($books);
+  }
+  $customer1 = new Basic(5, 'John', 'Doe', 'johndoe@mail.com');
+  var_dump(checkIfValid($customer1, [$book1])); // ok
+  print "<br>";
+  //$customer2 = new Customer(7, 'James', 'Bond', 'james@bond.com');
+  //var_dump(checkIfValid($customer2, [$book1])); // fails
+  print "<br><br>";
+
+  // An interface is an OOP element that groups a set of function declarations without implementing them, that is, it specifies the name, return type, and arguments, but not the block of code.
+  // Implementing an interface means implementing all the methods defined in it, like when we extended an abstract class.
+
+  // Polimorphism is an OOP feature that allows us to work with different classes that implement the same interface.
   function processPayment(Payer $payer, float $amount) {
      if ($payer->isExtentOfTaxes()) {
      echo "What a lucky one...";
@@ -134,7 +172,6 @@
   var_dump($basic instanceof Person); // false
   var_dump($basic instanceof Payer); // false
   print '<br><br>';
-
 
   // Traits, as abstract classes or interfaces, cannot be instantiated; they are just containers of functionality that can be used from other classes.
   $basic1 = new Basic(1, "name", "surname", "email");
@@ -201,7 +238,7 @@
   print '<br><br>';
 
 
-  // Handling exceptions
+  // Handling exceptions: an element of the language that identifies a case that is not as we expected.
   // The try…catch block
   // $basic = new Basic(-1, "name", "surname", "email");
   // Fatal error: Uncaught Exception: Id cannot be negative. in...
@@ -338,7 +375,7 @@
        }
        public function addTaxes(array &$book, $index, $percentage){
          if (isset($book['price'])) {
-         $book['price'] += round($percentage * $book['price'], 2);
+           $book['price'] += round($percentage * $book['price'], 2);
          }
        }
     }
@@ -680,5 +717,3 @@ function addSale(int $userId, array $bookIds): void {
   // $price = $request->getParams()->getNumber('price');
   // var_dump($price);
   // $price = $_POST['price'];
-
-?>

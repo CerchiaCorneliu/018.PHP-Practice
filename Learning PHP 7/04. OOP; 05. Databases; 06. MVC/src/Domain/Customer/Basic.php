@@ -25,27 +25,3 @@
       return false;
     }
   }
-
-  /*
-  $customer1 = new Basic(5, 'John', 'Doe', 'johndoe@mail.com');
-  var_dump($customer1);
-  // var_dump(checkIfValid($customer1, [$book1])); //ok
-  print '<br>';
-  $customer2 = new Customer(7, 'James', 'Bond', 'james@bond.com');
-  var_dump($customer2);
-  // var_dump(checkIfValid($customer2, [$book1])); // fails
-  */
-
-  /*
-  An abstract class is a class that cannot be instantiated.
-
-  abstract class Customer extends Person {
-  //...
-   abstract public function getMonthlyFee();
-   abstract public function getAmountToBorrow();
-   abstract public function getType();
-  //...
-  }
-  */
-
-?>

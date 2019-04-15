@@ -5,7 +5,6 @@
 
   class Person {
     use Unique;
-
     protected $firstname;
     protected $surname;
     protected $email;

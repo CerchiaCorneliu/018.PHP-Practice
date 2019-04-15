@@ -1,6 +1,6 @@
 {
- "db": {
- "user": "Luke",
- "password": "Skywalker"
- }
+   "db": {
+     "user": "Luke",
+     "password": "me"
+   }
 }

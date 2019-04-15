@@ -6,9 +6,18 @@
   interface Customer extends Payer {
      public function getMonthlyFee(): float;
      public function getAmountToBorrow(): int;
-     public function getId(): int;
      public function getType(): string;
+     public function getId(): int;
   }
+
+  /* abstract class Customer extends Person {
+    //...
+     abstract public function getMonthlyFee();
+     abstract public function getAmountToBorrow();
+     abstract public function getType();
+    //...
+    }
+  */
 
   /*
   class Customer extends Person {
@@ -59,23 +68,4 @@
    public function getType(): string {
      return 'Basic';
    }
-   function checkIfValid(Customer $customer, array $books): bool {
-     return $customer->getAmountToBorrow() >= count($books);
-   }
-  }
-
-  $customer1 = new Customer(3, 'John', 'Doe', 'johndoe@mail.com');
-  var_dump($customer1);
-  print '<br>';
-  $customer2 = new Customer(0, 'Mary', 'Poppins', 'mp@mail.com');
-  var_dump($customer2);
-  print '<br>';
-  $customer3 = new Customer(7, 'James', 'Bond', '007@mail.com');
-  var_dump($customer3);
-  print '<br>';
-  Customer::getLastId();
-  var_dump($customer3::getLastId());
-  print '<br><br>';
-  */
-
-?>
+ } */

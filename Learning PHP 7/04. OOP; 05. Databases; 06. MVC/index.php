@@ -14,6 +14,7 @@
   require_once 'src/Core/Db.php';
   require_once 'src/Core/Router.php';
   require_once 'src/Core/Request.php';
+  require_once __DIR__ . '/vendor/autoload.php';
 
   /*
   $loader = new Twig_Loader_Filesystem(__DIR__ . '/views');
