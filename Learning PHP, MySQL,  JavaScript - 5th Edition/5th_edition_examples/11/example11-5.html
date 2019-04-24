@@ -1,0 +1,8 @@
+   Vanilla <input type="checkbox" name="ice[]" value="Vanilla">
+ Chocolate <input type="checkbox" name="ice[]" value="Chocolate">
+Strawberry <input type="checkbox" name="ice[]" value="Strawberry">
+
+<?php
+  $ice = $_POST['ice'];
+  foreach($ice as $item) echo "$item<br>";
+?>
