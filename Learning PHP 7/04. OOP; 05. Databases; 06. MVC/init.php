@@ -152,12 +152,13 @@
   // An interface is an OOP element that groups a set of function declarations without implementing them, that is, it specifies the name, return type, and arguments, but not the block of code.
   // Implementing an interface means implementing all the methods defined in it, like when we extended an abstract class.
 
-  // Polimorphism is an OOP feature that allows us to work with different classes that implement the same interface.
+
+  // POLIMORPHISM is an OOP feature that allows us to work with different classes that implement the same interface.
   function processPayment(Payer $payer, float $amount) {
      if ($payer->isExtentOfTaxes()) {
-     echo "What a lucky one...";
+       echo "What a lucky one...";
      } else {
-     $amount *= 1.16;
+       $amount *= 1.16;
      }
      $payer->pay($amount);
   }
